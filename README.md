@@ -1,6 +1,6 @@
 Install
 ---
-
+composer require 3riangulum/yii-module-container
 
 
 Config Example
