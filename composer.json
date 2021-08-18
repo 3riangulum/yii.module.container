@@ -1,0 +1,54 @@
+{
+  "name": "3riangulum/yii-module-container",
+  "type": "library",
+  "description": "Yii2 module container",
+  "keywords": [
+    "Yii2"
+  ],
+  "homepage": "https://github.com/3riangulum/yii.module.container/",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "RD",
+      "email": "here.i.come@ro.ru",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": "^7.4",
+    "ext-json": "*",
+    "ext-mbstring": "*",
+    "ext-pdo": "*",
+    "ext-redis": "*",
+    "bookin/yii2-awesome-bootstrap-checkbox": "dev-master",
+    "kartik-v/yii2-widget-datepicker": "^1.4@dev",
+    "kartik-v/yii2-widget-datetimepicker": "^1.4@dev",
+    "kartik-v/yii2-widget-growl": "^1.1",
+    "kartik-v/yii2-widget-select2": "^2.2",
+    "kartik-v/yii2-widget-switchinput": "dev-master",
+    "nesbot/carbon": "^2.51",
+    "ramsey/uuid": "^4.0@dev",
+    "rmrevin/yii2-fontawesome": "*",
+    "webmozart/assert": "1.10.x-dev",
+    "yiisoft/yii2": "~2.0.4",
+    "yiisoft/yii2-bootstrap": "^2.0",
+    "yiisoft/yii2-redis": "^2.0@dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "Triangulum\\Yii\\ModuleContainer\\": "src/"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "fxp-asset": {
+    "enabled": false
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}
