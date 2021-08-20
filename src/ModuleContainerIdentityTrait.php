@@ -13,26 +13,26 @@ trait ModuleContainerIdentityTrait
     public ?string $containerId = null;
     public ?string $viewRoot    = null;
 
-    protected function loadModuleComponent(string $componentAlias)
+    protected function loadModuleComponent(string $alias)
     {
         return Yii::$app
             ->getModule($this->getModuleId())
-            ->get($this->componentId($componentAlias));
+            ->get($this->componentId($alias));
     }
 
-    public function loadMenuItem(): MenuItem
+    public function loadMenuItem(string $alias = ''): MenuItem
     {
-        return $this->loadModuleComponent(MenuItem::ID);
+        return $this->loadModuleComponent(MenuItem::ID . $alias);
     }
 
-    protected function loadRouter(): RouterBase
+    protected function loadRouter(string $alias = ''): RouterBase
     {
-        return $this->loadModuleComponent(RouterBase::ID);
+        return $this->loadModuleComponent(RouterBase::ID . $alias);
     }
 
-    protected function loadCache(): RedisPrefixedCache
+    protected function loadCache(string $alias = ''): RedisPrefixedCache
     {
-        return $this->loadModuleComponent(RedisPrefixedCache::ID);
+        return $this->loadModuleComponent(RedisPrefixedCache::ID . $alias);
     }
 
     protected function getModuleId(): string
