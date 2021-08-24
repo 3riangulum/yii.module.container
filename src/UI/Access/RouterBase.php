@@ -86,12 +86,17 @@ class RouterBase extends BaseObjectUI
 
     public function export(string $action, string $reloadGridId = ''): array
     {
-        return [
-            'tag'          => $this->tag($action),
-            'route'        => $this->route($action),
-            'allowAction'  => $this->isAllowed($action),
-            'reloadGridId' => $reloadGridId,
+        $export = [
+            'tag'         => $this->tag($action),
+            'route'       => $this->route($action),
+            'allowAction' => $this->isAllowed($action),
         ];
+
+        if ($reloadGridId) {
+            $export['reloadGridId'] = $reloadGridId;
+        }
+
+        return $export;
     }
 
 }

@@ -15,8 +15,9 @@ use yii\widgets\Pjax;
 
 class ElementPopup extends ElementBase implements ComponentBuilderInterface
 {
-    public string     $actionDelete;
-    public string     $reloadGridId;
+    public string $actionDelete = '';
+    public string $reloadGridId = '';
+
     public string     $dataMapper         = "['id']";
     public string     $mainContainerClass = 'core-popup-window';
     public string     $legend             = '';
@@ -69,11 +70,6 @@ class ElementPopup extends ElementBase implements ComponentBuilderInterface
         return $this->pjaxId;
     }
 
-    protected function containerClass(): string
-    {
-        return $this->tag . '_popup';
-    }
-
     public function pjaxEnd(): void
     {
         Pjax::end();
@@ -91,6 +87,11 @@ class ElementPopup extends ElementBase implements ComponentBuilderInterface
     protected function registerPopupAsset(View $view): void
     {
         ElementPopupAsset::register($view);
+    }
+
+    protected function containerClass(): string
+    {
+        return $this->tag . '_popup';
     }
 
     protected function containerCreate(): void

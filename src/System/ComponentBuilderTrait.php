@@ -14,5 +14,4 @@ trait ComponentBuilderTrait
 
         return Yii::createObject($params);
     }
-
 }

@@ -7,6 +7,7 @@ use Webmozart\Assert\Assert;
 use Yii;
 use yii\base\Module;
 use yii\console\Application;
+use yii\helpers\Inflector;
 
 class ModuleBase extends Module
 {
@@ -52,7 +53,10 @@ class ModuleBase extends Module
                 $component['containerId'] = $containerId;
                 $component['viewRoot'] = $this->viewRoot($containerId);
 
-                $componentAlias = $containerId === $alias ? $component['class'] : $containerId . $alias;
+                $componentAlias = $containerId === $alias ?
+                    $component['class'] :
+                    lcfirst(Inflector::id2camel($containerId . $alias, '_'));
+
                 $componentsConfig['components'][$componentAlias] = $component;
             }
         }
@@ -62,7 +66,7 @@ class ModuleBase extends Module
 
     protected function viewRoot(string $containerId): string
     {
-        return $this->viewPath . '/' . $containerId . '/';
+        return $this->viewPath . static::ID . '/views/' . $containerId . '/';
     }
 
     private function defineControllerNamespace(): void
