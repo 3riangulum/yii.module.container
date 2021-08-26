@@ -2,6 +2,7 @@
 
 namespace Triangulum\Yii\ModuleContainer\UI\Front\Element;
 
+use Closure;
 use Triangulum\Yii\ModuleContainer\System\ComponentBuilderInterface;
 use Triangulum\Yii\ModuleContainer\System\ComponentBuilderTrait;
 use Triangulum\Yii\ModuleContainer\UI\Front\FrontBase;
@@ -9,9 +10,7 @@ use Triangulum\Yii\ModuleContainer\UI\Html\Label;
 use Triangulum\Yii\ModuleContainer\UI\Html\Panel\PanelGrid;
 use Yii;
 use yii\base\Model;
-use yii\base\StaticInstanceInterface;
-use yii\data\ActiveDataProvider;
-use yii\data\ArrayDataProvider;
+use yii\data\BaseDataProvider;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
 use yii\helpers\Html;
@@ -31,15 +30,12 @@ abstract class ElementGrid extends ElementBase implements ComponentBuilderInterf
     public string     $mainContainerClass = '';
     public ?PanelGrid $panel              = null;
 
-    /**
-     * @var ActiveDataProvider|ArrayDataProvider
-     */
-    protected        $dataProvider;
-    protected ?Model $searchModel   = null;
-    protected string $title         = '';
-    protected array  $clickClassMap = [];
-    protected array  $clickEventMap = [];
-    protected array  $iconClassMap  = [
+    protected ?BaseDataProvider $dataProvider  = null;
+    protected ?Model            $searchModel   = null;
+    protected string            $title         = '';
+    protected array             $clickClassMap = [];
+    protected array             $clickEventMap = [];
+    protected array             $iconClassMap  = [
         'update'    => 'glyphicon glyphicon-pencil pointer margin-left-10',
         'view'      => 'glyphicon glyphicon-eye-open pointer margin-left-10',
         'duplicate' => 'glyphicon glyphicon-duplicate pointer margin-left-10',
@@ -55,17 +51,9 @@ abstract class ElementGrid extends ElementBase implements ComponentBuilderInterf
         }
     }
 
-    /**
-     * @return mixed
-     */
-    abstract protected function gridViewRowOptions();
+    abstract protected function gridViewRowOptions(): Closure;
 
-    /**
-     * @param StaticInstanceInterface|null $searchModel
-     * @param array                        $addon
-     * @return array
-     */
-    abstract protected function gridViewColumnsConfig($searchModel = null, array $addon = []): array;
+    abstract protected function gridViewColumnsConfig(Model $searchModel = null): array;
 
     public function render(): void
     {
@@ -79,8 +67,7 @@ abstract class ElementGrid extends ElementBase implements ComponentBuilderInterf
         return GridView::widget(
             $this->configure(
                 $this->dataProvider,
-                $this->searchModel,
-                []
+                $this->searchModel
             )
         );
     }
@@ -270,13 +257,7 @@ JS
         return $this->actionColumnConfigure($buttonList);
     }
 
-    /**
-     * @param       $dataProvider
-     * @param       $searchModel
-     * @param array $addon
-     * @return array
-     */
-    protected function configure($dataProvider, $searchModel = null, array $addon = []): array
+    protected function configure(BaseDataProvider $dataProvider, Model $searchModel = null): array
     {
         $config = [
             'id'           => $this->gridId,
@@ -291,7 +272,7 @@ JS
             $config['rowOptions'] = $rowOption;
         }
 
-        $config['columns'] = $this->gridViewColumnsConfig($searchModel, $addon);
+        $config['columns'] = $this->gridViewColumnsConfig($searchModel);
         $config['tableOptions'] = [
             'class' => ['table table-bordered table-hover table-condensed borderless'],
         ];

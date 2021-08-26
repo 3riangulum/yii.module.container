@@ -7,8 +7,12 @@ use yii\base\Model;
 
 class ModelBase extends Model
 {
-    public function dataValidate(array $postData): bool
+    public function dataValidate(array $postData, bool $isValid = null): bool
     {
+        if ($isValid !== null && !$isValid) {
+            return false;
+        }
+
         return $this->load($postData) && $this->validate();
     }
 

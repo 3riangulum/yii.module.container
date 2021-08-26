@@ -6,6 +6,7 @@ use Triangulum\Yii\ModuleContainer\System\Cache\RedisPrefixedCache;
 use Triangulum\Yii\ModuleContainer\UI\Access\RouterBase;
 use Triangulum\Yii\ModuleContainer\UI\Menu\MenuItem;
 use Yii;
+use yii\helpers\BaseInflector;
 use yii\helpers\Inflector;
 
 trait ModuleContainerIdentityTrait
@@ -58,6 +59,6 @@ trait ModuleContainerIdentityTrait
 
     protected function containerUri(): string
     {
-        return $this->getModuleId() . '/' . $this->getContainerId();
+        return $this->getModuleId() . '/' . BaseInflector::camel2id($this->containerId);
     }
 }

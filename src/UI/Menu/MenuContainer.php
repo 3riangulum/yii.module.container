@@ -43,7 +43,6 @@ class MenuContainer extends BaseObjectUI
         ];
 
         $aliasList = [];
-        $items = [];
         $visible = false;
         foreach ($this->itemList as $menuItem) {
             if ($menuItem->isAllowed()) {
