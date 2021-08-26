@@ -27,9 +27,7 @@ class MenuItem extends BaseObjectUI
         return [
             'label'   => $this->title,
             'url'     => $this->router->route($this->action),
-            'alias'   => [
-                trim($this->router->uri(), '/'),
-            ],
+            'alias'   => [$this->alias()],
             'visible' => $this->router->isAllowed($this->action),
             'icon'    => ' ',
         ];
@@ -38,5 +36,10 @@ class MenuItem extends BaseObjectUI
     public function isAllowed(): bool
     {
         return $this->router->isAllowed($this->action);
+    }
+
+    public function alias(): string
+    {
+        return trim($this->router->uri(), '/');
     }
 }

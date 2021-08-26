@@ -4,7 +4,7 @@ namespace Triangulum\Yii\ModuleContainer\System\Json;
 
 use JsonException;
 
-class Json
+final class Json
 {
     /**
      * @return mixed

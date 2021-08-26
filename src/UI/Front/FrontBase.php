@@ -105,7 +105,7 @@ class FrontBase extends BaseObjectUI
 
     public function templatePath(string $template): string
     {
-        return $this->viewRoot . '/' . trim($template, '/');
+        return $this->viewRoot . trim($template, '/');
     }
 
     protected function autocompleteGrid(Model $model, string $attribute): AutoCompleteSelectGrid
