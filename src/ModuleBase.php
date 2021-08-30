@@ -11,7 +11,9 @@ use yii\helpers\Inflector;
 
 class ModuleBase extends Module
 {
-    public string  $moduleParentNamespace  = '';
+    public const COMPONENTS = 'components';
+
+    public string $moduleParentNamespace  = '';
     public ?string $moduleBootstrapUI      = '/config/module_bootstrap_ui.php';
     public ?string $moduleBootstrapCommand = '/config/module_bootstrap_command.php';
 
@@ -29,8 +31,9 @@ class ModuleBase extends Module
 
     protected function loadComponentsUI(): void
     {
+        $config = $this->getBootstrapConfig($this->moduleBootstrapUI);
         if ($this->moduleBootstrapUI) {
-            Yii::configure($this, $this->getBootstrapConfig($this->moduleBootstrapUI));
+            Yii::configure($this, $config);
         }
     }
 
@@ -57,7 +60,7 @@ class ModuleBase extends Module
                     $component['class'] :
                     lcfirst(Inflector::id2camel($containerId . $alias, '_'));
 
-                $componentsConfig['components'][$componentAlias] = $component;
+                $componentsConfig[self::COMPONENTS][$componentAlias] = $component;
             }
         }
 

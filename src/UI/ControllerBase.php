@@ -14,12 +14,12 @@ use yii\web\Response;
 
 class ControllerBase extends Controller
 {
-    protected int    $hideModal             = 0;
+    protected int $hideModal             = 0;
     protected string $uri                   = '';
-    protected array  $csrfValidationExclude = [];
-    protected array  $jsonResponse          = [];
-    protected array  $accessRules           = [];
-    protected array  $verbActions           = [];
+    protected array $csrfValidationExclude = [];
+    protected array $jsonResponse          = [];
+    protected array $accessRules           = [];
+    protected array $verbActions           = [];
 
     /**
      * @throws BadRequestHttpException
@@ -64,13 +64,16 @@ class ControllerBase extends Controller
     protected function accessRuleDefault(array $actionList = []): array
     {
         if (empty($ipWhite = Yii::$app->params['App.IpWhiteList'] ?? [])) {
-            return [];
+            $default =  [
+                'allow' => true,
+                'roles' => ['@'],
+            ];
+        } else {
+            $default = [
+                'allow' => true,
+                'ips'   => $ipWhite,
+            ];
         }
-
-        $default = [
-            'allow' => true,
-            'ips'   => $ipWhite,
-        ];
 
         if ($actionList) {
             $default['actions'] = $actionList;

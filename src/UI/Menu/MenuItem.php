@@ -12,8 +12,8 @@ class MenuItem extends BaseObjectUI
 
     public const ID = 'Menu';
 
-    public string      $title  = '';
-    public string      $action = RouterBase::ACTION_INDEX;
+    public string $title  = '';
+    public string $action = RouterBase::ACTION_INDEX;
     public ?RouterBase $router = null;
 
     public function init(): void

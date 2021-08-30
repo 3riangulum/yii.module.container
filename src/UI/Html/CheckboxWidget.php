@@ -2,8 +2,8 @@
 
 namespace Triangulum\Yii\ModuleContainer\UI\Html;
 
-//use bookin\aws\checkbox\AwesomeCheckboxAsset;
-//use bookin\aws\checkbox\FontAwesomeAsset;
+use bookin\aws\checkbox\AwesomeCheckboxAsset;
+use bookin\aws\checkbox\FontAwesomeAsset;
 use yii\helpers\Html;
 use yii\widgets\InputWidget;
 
@@ -29,8 +29,7 @@ class CheckboxWidget extends InputWidget
 
     public function run(): string
     {
-//        AwesomeCheckboxAsset::register($this->getView());
-//        FontAwesomeAsset::register($this->getView());
+        AwesomeCheckboxAsset::register($this->getView());
 
         if (!empty($this->list) && is_array($this->list)) {
             return $this->renderList();

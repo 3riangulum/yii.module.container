@@ -18,10 +18,10 @@ class ElementPopup extends ElementBase implements ComponentBuilderInterface
     public string $actionDelete = '';
     public string $reloadGridId = '';
 
-    public string     $dataMapper         = "['id']";
-    public string     $mainContainerClass = 'core-popup-window';
-    public string     $legend             = '';
-    public ?bool      $pjaxLinkSelector   = false;
+    public string $dataMapper         = "['id']";
+    public string $mainContainerClass = 'core-popup-window';
+    public string $legend             = '';
+    public ?bool $pjaxLinkSelector   = false;
     public ?PanelBase $panel              = null;
 
     public function init(): void
@@ -212,7 +212,7 @@ JS;
             Growl::growlError($growlTitle, $growlMsg);
         }
 
-        if (isset($this->reloadGridId) && $this->reloadGridId) {
+        if (!empty($this->reloadGridId)) {
             $js = <<<JS
 
 CORE.refreshGrid('#{$this->reloadGridId}');
