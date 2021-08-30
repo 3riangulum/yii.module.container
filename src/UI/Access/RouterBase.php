@@ -20,10 +20,10 @@ class RouterBase extends BaseObjectUI
     public const ACTION_DUPLICATE = 'duplicate';
     public const ACTION_VIEW      = 'view';
 
-    public string      $uri    = '';
+    public string $uri    = '';
     public ?AccessBase $access = null;
 
-    public array  $actions   = [];
+    public array $actions   = [];
     private array $actionMap = [];
 
     public function init(): void
@@ -55,11 +55,6 @@ class RouterBase extends BaseObjectUI
         return $this->uri . '/' . $this->action($action);
     }
 
-    public function tag(string $action): string
-    {
-        return str_replace(['/', '-'], ['_', '_'], $this->rule($action));
-    }
-
     protected function action(string $action): string
     {
         if ('' === $action) {
@@ -83,20 +78,4 @@ class RouterBase extends BaseObjectUI
     {
         return $this->uri;
     }
-
-    public function export(string $action, string $reloadGridId = ''): array
-    {
-        $export = [
-            'tag'         => $this->tag($action),
-            'route'       => $this->route($action),
-            'allowAction' => $this->isAllowed($action),
-        ];
-
-        if ($reloadGridId) {
-            $export['reloadGridId'] = $reloadGridId;
-        }
-
-        return $export;
-    }
-
 }
