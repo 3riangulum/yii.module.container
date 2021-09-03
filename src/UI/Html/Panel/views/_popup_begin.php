@@ -1,12 +1,10 @@
 <?php
-
 /**
- * @var $title         string
- * @var $panelClass    string
+ * @var $title      string
+ * @var $panelClass string
  */ ?>
 
 <div class="panel <?php echo $panelClass ?>">
-
     <div class="panel-heading">
         <div>
             <span class="uppercase text-strong"><?php echo $title ?></span>
@@ -17,4 +15,3 @@
     </div>
     <span class="clearfix"></span>
     <div class="panel-body ">
-        <div class="table-responsive">

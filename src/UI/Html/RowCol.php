@@ -23,7 +23,6 @@ final class RowCol
     </div>
     
 </div>
-<hr class="hr-slim">
 HTML;
     }
 }

@@ -125,7 +125,7 @@ class RbacBehavior extends AttributeBehavior
         }
     }
 
-    protected function checkByRule(InlineAction $action, User $user, Request $request): bool
+    protected function checkByRule(\yii\base\Action $action, User $user, Request $request): bool
     {
         /** @var AccessRule $rule */
         foreach ($this->rulesRbac as $rule) {
