@@ -26,7 +26,7 @@ final class Button
         );
     }
 
-    public static function submit(string $title = 'Save', string $class = self::CSS_BTN_DEF): string
+    public static function submit(string $title = 'Save', string $class = self::CSS_BTN_SCCS): string
     {
         return '<div class="clearfix"></div>' .
             '<div class="form-group ">' .
@@ -34,7 +34,7 @@ final class Button
             '</div>';
     }
 
-    public static function submitBottom(string $title = 'Save', string $class = self::CSS_BTN_DEF): string
+    public static function submitBottom(string $title = 'Save', string $class = self::CSS_BTN_SCCS): string
     {
         $btn = self::submit($title, $class);
 
@@ -49,7 +49,7 @@ final class Button
 HTML;
     }
 
-    public static function submitTop(string $title = 'Save', string $class = self::CSS_BTN_DEF): string
+    public static function submitTop(string $title = 'Save', string $class = self::CSS_BTN_SCCS): string
     {
         $btn = self::submit($title, $class);
 

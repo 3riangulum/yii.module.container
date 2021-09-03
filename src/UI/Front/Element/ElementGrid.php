@@ -21,21 +21,22 @@ abstract class ElementGrid extends ElementBase implements ComponentBuilderInterf
 {
     use ComponentBuilderTrait;
 
-    public string $gridId             = '';
-    public array $gridActionColumn   = [];
-    public array $invisibleColumn    = [];
-    public string $caption            = '';
-    public array $captionOptions     = [];
-    public bool $borderLess         = true;
-    public string $mainContainerClass = '';
+    public string     $gridId             = '';
+    public array      $gridActionColumn   = [];
+    public array      $invisibleColumn    = [];
+    public string     $caption            = '';
+    public array      $captionOptions     = [];
+    public bool       $borderLess         = true;
+    public string     $mainContainerClass = '';
     public ?PanelGrid $panel              = null;
+    public string     $gridWidgetClass    = GridView::class;
 
     protected ?BaseDataProvider $dataProvider  = null;
-    protected ?Model $searchModel   = null;
-    protected string $title         = '';
-    protected array $clickClassMap = [];
-    protected array $clickEventMap = [];
-    protected array $iconClassMap  = [
+    protected ?Model            $searchModel   = null;
+    protected string            $title         = '';
+    protected array             $clickClassMap = [];
+    protected array             $clickEventMap = [];
+    protected array             $iconClassMap  = [
         'update'    => 'glyphicon glyphicon-pencil pointer margin-left-10',
         'view'      => 'glyphicon glyphicon-eye-open pointer margin-left-10',
         'duplicate' => 'glyphicon glyphicon-duplicate pointer margin-left-10',
@@ -64,13 +65,14 @@ abstract class ElementGrid extends ElementBase implements ComponentBuilderInterf
 
     public function widget(): string
     {
-        return GridView::widget(
+        return $this->gridWidgetClass::widget(
             $this->configure(
                 $this->dataProvider,
                 $this->searchModel
             )
         );
     }
+
 
     public function renderWithPjax(string $title = ''): void
     {

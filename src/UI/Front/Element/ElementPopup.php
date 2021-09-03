@@ -3,6 +3,7 @@
 namespace Triangulum\Yii\ModuleContainer\UI\Front\Element;
 
 use Triangulum\Yii\ModuleContainer\System\ComponentBuilderInterface;
+use Triangulum\Yii\ModuleContainer\UI\Html\Button;
 use Triangulum\Yii\ModuleContainer\UI\Html\Growl;
 use Triangulum\Yii\ModuleContainer\UI\Html\Panel\PanelBase;
 use Yii;
@@ -18,10 +19,10 @@ class ElementPopup extends ElementBase implements ComponentBuilderInterface
     public string $actionDelete = '';
     public string $reloadGridId = '';
 
-    public string $dataMapper         = "['id']";
-    public string $mainContainerClass = 'core-popup-window';
-    public string $legend             = '';
-    public ?bool $pjaxLinkSelector   = false;
+    public string     $dataMapper         = "['id']";
+    public string     $mainContainerClass = 'core-popup-window';
+    public string     $legend             = '';
+    public ?bool      $pjaxLinkSelector   = false;
     public ?PanelBase $panel              = null;
 
     public function init(): void
@@ -189,7 +190,7 @@ JS;
         return $this->clickClass() . ' pointer';
     }
 
-    public function htmlButton(string $title = 'Create', string $btnClass = 'btn btn-default btn-xs'): string
+    public function htmlButton(string $title = 'Create', string $btnClass = Button::CSS_BTN_SCCS): string
     {
         return $this->isAllowed() ?
             Html::tag(
@@ -333,7 +334,7 @@ JS;
             return '';
         }
 
-        $class = 'btn-danger margin5px';
+        $class = 'btn-danger btn-delete';
         $action = 'delete';
         $title = "<span class='$class padding-lateral-5 uppercase '>$action !</span>";
 
@@ -362,7 +363,6 @@ JS;
     public function panelBeginAdvanced(string $title, array $pKey = [], bool $showDelete = true, bool $encode = true, string $addon = ''): void
     {
         $this->panelBegin($title, $encode);
-        echo '<div class="padding10 margin-5px">';
         if ($showDelete) {
             echo $this->htmlButtonDelete($pKey);
         }
@@ -372,7 +372,6 @@ JS;
 
     public function panelEndAdvanced(): void
     {
-        echo '</div>';
         $this->panelEnd();
     }
 
