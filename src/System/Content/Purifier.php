@@ -2,6 +2,7 @@
 
 namespace Triangulum\Yii\ModuleContainer\System\Content;
 
+use Yii;
 use yii\helpers\HtmlPurifier;
 
 final class Purifier
@@ -29,5 +30,20 @@ final class Purifier
     public static function removeQuotes(string $text): string
     {
         return str_replace(['"', "'"], "", $text);
+    }
+
+    public static function cutUp($string, $fromStart = 5, $fromEnd = 5, $placeHolder = '<span class="smaller">...</span>')
+    {
+        $encoding = Yii::$app ? Yii::$app->charset : 'UTF-8';
+
+        if (mb_strlen($string, $encoding) <= $fromStart + $fromEnd) {
+            return $string;
+        }
+
+        $ret = mb_substr($string, 0, $fromStart, $encoding);
+        $ret .= $placeHolder;
+        $ret .= mb_substr($string, mb_strlen($string, $encoding) - $fromEnd, $fromEnd, $encoding);
+
+        return $ret;
     }
 }
