@@ -24,6 +24,9 @@ class ElementPopup extends ElementBase implements ComponentBuilderInterface
     public string     $legend             = '';
     public ?bool      $pjaxLinkSelector   = false;
     public ?PanelBase $panel              = null;
+    public array      $pk                 = [];
+
+    protected bool $hasError = true;
 
     public function init(): void
     {
@@ -47,9 +50,37 @@ class ElementPopup extends ElementBase implements ComponentBuilderInterface
         return Yii::createObject($params);
     }
 
-    public function pjaxBegin(bool $hasErrors): void
+    public function exportViewSuccessData(): array
     {
-        Pjax::begin($this->pjaxConfig($hasErrors));
+        return [
+            'title'     => $this->title,
+            'msg'       => 'The operation was successful',
+            'popup'     => $this,
+            'hideModal' => 1,
+        ];
+    }
+
+    public function setHasError(bool $state): self
+    {
+        $this->hasError = $state;
+
+        return $this;
+    }
+
+    public function setPk(array $pk): self
+    {
+        $this->pk = $pk;
+
+        return $this;
+    }
+
+    public function pjaxBegin(bool $hasError = null): void
+    {
+        if ($hasError === null) {
+            $hasError = $this->hasError;
+        }
+
+        Pjax::begin($this->pjaxConfig($hasError));
     }
 
     protected function pjaxConfig(bool $hasErrors): array
@@ -360,6 +391,9 @@ JS;
         return !empty($this->actionDelete);
     }
 
+    /**
+     * @deprecated
+     */
     public function panelBeginAdvanced(string $title, array $pKey = [], bool $showDelete = true, bool $encode = true, string $addon = ''): void
     {
         $this->panelBegin($title, $encode);
@@ -370,14 +404,21 @@ JS;
         echo $addon;
     }
 
+    /**
+     * @deprecated
+     */
     public function panelEndAdvanced(): void
     {
         $this->panelEnd();
     }
 
-    public function panelBegin(string $title, bool $encode = true): void
+    public function panelBegin(string $title = '', bool $encode = true): void
     {
-        echo $this->panel->begin($encode ? Html::encode($title) : $title);
+        echo $this->panel->begin(Html::encode(empty($title) ? $this->title : $title));
+
+        if (!empty($this->pk)) {
+            echo $this->htmlButtonDelete($this->pk);
+        }
     }
 
     public function panelEnd(): void

@@ -13,7 +13,7 @@ class ModuleBase extends Module
 {
     public const COMPONENTS = 'components';
 
-    public string $moduleParentNamespace  = '';
+    public string  $moduleParentNamespace  = '';
     public ?string $moduleBootstrapUI      = '/config/module_bootstrap_ui.php';
     public ?string $moduleBootstrapCommand = '/config/module_bootstrap_command.php';
 
@@ -46,25 +46,38 @@ class ModuleBase extends Module
 
     private function getBootstrapConfig(string $path): array
     {
-        $reflector = new ReflectionClass(get_class($this));
-        $config = require dirname($reflector->getFileName()) . $path;
+        return Yii::$app->cache->getOrSet(
+            [static::ID, $path],
+            function () use ($path) {
+                $reflector = new ReflectionClass(get_class($this));
+                $config = require dirname($reflector->getFileName()) . $path;
 
-        $componentsConfig = [];
-        foreach ($config as $containerId => $components) {
-            foreach ($components as $alias => $component) {
-                $component['moduleId'] = $this->id;
-                $component['containerId'] = $containerId;
-                $component['viewRoot'] = $this->viewRoot($containerId);
+                $componentsConfig = [];
+                foreach ($config as $containerId => $components) {
+                    foreach ($components as $alias => $component) {
+                        if (self::COMPONENTS === $alias) {
+                            foreach ($component as $index => $data) {
+                                $componentAlias = lcfirst(Inflector::id2camel($containerId . $index, '_'));
+                                $componentsConfig[self::COMPONENTS][$componentAlias] = $data;
+                            }
+                            continue;
+                        }
 
-                $componentAlias = $containerId === $alias ?
-                    $component['class'] :
-                    lcfirst(Inflector::id2camel($containerId . $alias, '_'));
+                        $component['moduleId'] = $this->id;
+                        $component['containerId'] = $containerId;
+                        $component['viewRoot'] = $this->viewRoot($containerId);
 
-                $componentsConfig[self::COMPONENTS][$componentAlias] = $component;
+                        $componentAlias = $containerId === $alias ?
+                            $component['class'] :
+                            lcfirst(Inflector::id2camel($containerId . $alias, '_'));
+
+                        $componentsConfig[self::COMPONENTS][$componentAlias] = $component;
+                    }
+                }
+
+                return $componentsConfig;
             }
-        }
-
-        return $componentsConfig;
+        );
     }
 
     protected function viewRoot(string $containerId): string

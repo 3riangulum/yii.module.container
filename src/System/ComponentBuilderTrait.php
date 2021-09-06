@@ -6,7 +6,7 @@ use Yii;
 
 trait ComponentBuilderTrait
 {
-    public static function builder(array $params): self
+    public static function builder(array $params = []): self
     {
         if (!isset($params['class'])) {
             $params['class'] = static::class;

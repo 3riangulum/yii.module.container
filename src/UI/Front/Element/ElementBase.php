@@ -9,8 +9,16 @@ class ElementBase extends BaseObjectUI
     public string $tag         = '';
     public string $route       = '';
     public bool   $allowAction = false;
+    public string $title       = '';
 
     protected string $pjaxId = '';
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
 
     public function extractAction(): string
     {

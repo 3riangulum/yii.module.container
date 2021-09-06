@@ -15,7 +15,7 @@ final class Text
 
     public static function hiddenInput(ActiveForm $form, $model, string $field, array $config = []): ActiveField
     {
-        return $form->field($model, $field)->hiddenInput($config);
+        return $form->field($model, $field)->hiddenInput($config)->label(false);
     }
 
     public static function fakeInput(string $title, string $value, string $class = '', $readonly = true): string

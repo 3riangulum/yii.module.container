@@ -12,14 +12,21 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
+/**
+ * @todo Transfer title methods to FrontBase class
+ */
 class ControllerBase extends Controller
 {
-    protected int $hideModal             = 0;
+    /**
+     * @deprecated
+     * @var int
+     */
+    protected int    $hideModal             = 0;
     protected string $uri                   = '';
-    protected array $csrfValidationExclude = [];
-    protected array $jsonResponse          = [];
-    protected array $accessRules           = [];
-    protected array $verbActions           = [];
+    protected array  $csrfValidationExclude = [];
+    protected array  $jsonResponse          = [];
+    protected array  $accessRules           = [];
+    protected array  $verbActions           = [];
 
     /**
      * @throws BadRequestHttpException
@@ -64,7 +71,7 @@ class ControllerBase extends Controller
     protected function accessRuleDefault(array $actionList = []): array
     {
         if (empty($ipWhite = Yii::$app->params['App.IpWhiteList'] ?? [])) {
-            $default =  [
+            $default = [
                 'allow' => true,
                 'roles' => ['@'],
             ];
@@ -134,21 +141,33 @@ class ControllerBase extends Controller
         );
     }
 
+    /**
+     * @deprecated
+     */
     protected function createTitle(string $title = ''): string
     {
         return 'Creation.' . $title;
     }
 
+    /**
+     * @deprecated
+     */
     protected function editTitle(string $title = ''): string
     {
         return 'Redaction.' . $title;
     }
 
+    /**
+     * @deprecated
+     */
     protected function duplicateTitle(string $title = ''): string
     {
         return 'Duplication.' . $title;
     }
 
+    /**
+     * @deprecated
+     */
     protected function deleteTitle(string $title = ''): string
     {
         return 'Deletion.' . $title;
@@ -161,5 +180,15 @@ class ControllerBase extends Controller
     protected function notFoundHttpException(string $msg = 'The requested resource does not exist.'): void
     {
         throw new NotFoundHttpException($msg);
+    }
+
+    protected function isPost(): bool
+    {
+        return Yii::$app->request->isPost;
+    }
+
+    protected function getPost(): array
+    {
+        return Yii::$app->request->post();
     }
 }

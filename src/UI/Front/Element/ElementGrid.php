@@ -30,10 +30,12 @@ abstract class ElementGrid extends ElementBase implements ComponentBuilderInterf
     public string     $mainContainerClass = '';
     public ?PanelGrid $panel              = null;
     public string     $gridWidgetClass    = GridView::class;
+    public ?string    $gridSearchClass    = null;
+
+    public string $title = '';
 
     protected ?BaseDataProvider $dataProvider  = null;
     protected ?Model            $searchModel   = null;
-    protected string            $title         = '';
     protected array             $clickClassMap = [];
     protected array             $clickEventMap = [];
     protected array             $iconClassMap  = [
@@ -72,7 +74,6 @@ abstract class ElementGrid extends ElementBase implements ComponentBuilderInterf
             )
         );
     }
-
 
     public function renderWithPjax(string $title = ''): void
     {
@@ -130,7 +131,10 @@ abstract class ElementGrid extends ElementBase implements ComponentBuilderInterf
 
     public function titleSet(string $title): void
     {
-        $this->title = $title;
+        if (!empty($title)) {
+
+            $this->title = $title;
+        }
     }
 
     public function clickClassMapSet(array $clickClassMap): void

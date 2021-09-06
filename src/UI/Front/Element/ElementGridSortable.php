@@ -32,7 +32,6 @@ trait ElementGridSortable
         $this->clickEventRegister($view);
         $this->pjaxBegin();
         $this->render();
-
         $this->registerSortable($view);
         $this->pjaxEnd();
 

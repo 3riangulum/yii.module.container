@@ -19,12 +19,13 @@ final class FrontConfig extends BaseObjectUI
     public string $reloadGridId = '';
     public string $delete       = '';
 
+    public string $dataMapper = "['id']";
 
-    public string $dataMapper   = "['id']";
+    public ?string $gridSearchClass = null;
 
     public ?RouterBase $router = null;
 
-    private array $actionConfig = [];
+    private array   $actionConfig = [];
     private ?string $gridTag      = null;
 
     private string $deleteAction = '';
@@ -47,13 +48,14 @@ final class FrontConfig extends BaseObjectUI
         return $this;
     }
 
-    public function buildGrid(string $alias, string $action): self
+    public function buildGrid(string $alias, string $action, string $title = ''): self
     {
         $this->actionConfig[$alias] = [
             'route'       => $this->router->route($action),
             'allowAction' => $this->router->isAllowed($action),
             'gridId'      => $this->gridTag(),
             'class'       => $this->gridClass,
+            'title'       => $title,
         ];
 
         return $this;

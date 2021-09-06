@@ -5,7 +5,6 @@ namespace Triangulum\Yii\ModuleContainer\UI\Front;
 use Triangulum\Yii\ModuleContainer\ModuleContainerIdentityTrait;
 use Triangulum\Yii\ModuleContainer\UI\Access\RouterBase;
 use Triangulum\Yii\ModuleContainer\UI\BaseObjectUI;
-use Triangulum\Yii\ModuleContainer\UI\Front\Element\ElementGrid;
 use Triangulum\Yii\ModuleContainer\UI\Front\Element\ElementPopup;
 use Triangulum\Yii\ModuleContainer\UI\Html\AutoComplete\AutoCompleteSelectGrid;
 use yii\base\Model;
@@ -23,10 +22,11 @@ class FrontBase extends BaseObjectUI
     public const ALIAS_ERASER     = 'eraser';
     public const ALIAS_VIEWER     = 'viewer';
 
-    public ?string $gridClass = null;
+    public ?string $gridClass       = null;
+    public ?string $gridSearchClass = null;
 
     protected ?RouterBase $router       = null;
-    protected array $actionConfig = [];
+    protected array       $actionConfig = [];
 
     public function init(): void
     {
@@ -39,26 +39,14 @@ class FrontBase extends BaseObjectUI
         return $this->actionConfig;
     }
 
+    protected function actionIsAllowed(string $alias): bool
+    {
+        return $this->actionConfig()[$alias]['allowAction'] ?? false;
+    }
+
     protected function popupLoad(string $alias): ElementPopup
     {
         return ElementPopup::builder($this->actionConfig()[$alias]);
-    }
-
-    public function grid(
-        $dataProvider,
-        $searchModel = null,
-        string $title = '',
-        array $clickClassMap = [],
-        array $actionColumn = []
-    ) {
-        $grid = ElementGrid::builder($this->actionConfig()[self::ALIAS_GRID]);
-        $grid->dataProviderSet($dataProvider);
-        $grid->searchModelSet($searchModel);
-        $grid->titleSet($title);
-        $grid->clickClassMapSet($clickClassMap);
-        $grid->actionColumnSet($actionColumn);
-
-        return $grid;
     }
 
     public function templatePath(string $template): string
