@@ -4,7 +4,7 @@ namespace Triangulum\Yii\ModuleContainer\System\Db;
 
 interface Repository
 {
-    public function find(): DbActiveQueryBase;
+    public function query(): DbActiveQueryBase;
 
     public function entityLoad(int $pk, bool $throw = true): self;
 

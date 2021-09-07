@@ -16,6 +16,8 @@ use yii\helpers\Html;
 
 abstract class DbSearchBase extends ModelBase implements DbSearch
 {
+    public const ID = 'Search';
+
     public string      $repositoryAlias = '';
     public ?Repository $repository      = null;
 

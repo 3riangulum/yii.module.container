@@ -3,6 +3,7 @@
 namespace Triangulum\Yii\ModuleContainer\UI\Front;
 
 use Triangulum\Yii\ModuleContainer\ModuleContainerIdentityTrait;
+use Triangulum\Yii\ModuleContainer\System\Db\DbSearchBase;
 use Triangulum\Yii\ModuleContainer\UI\Access\RouterBase;
 use Triangulum\Yii\ModuleContainer\UI\BaseObjectUI;
 use Triangulum\Yii\ModuleContainer\UI\Front\Element\ElementPopup;
@@ -22,8 +23,9 @@ class FrontBase extends BaseObjectUI
     public const ALIAS_ERASER     = 'eraser';
     public const ALIAS_VIEWER     = 'viewer';
 
-    public ?string $gridClass       = null;
-    public ?string $gridSearchClass = null;
+    public ?string $gridClass        = null;
+    public ?string $searchComponent  = DbSearchBase::ID;
+    public bool    $gridFilterEnable = true;
 
     protected ?RouterBase $router       = null;
     protected array       $actionConfig = [];

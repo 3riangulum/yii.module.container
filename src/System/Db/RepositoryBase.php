@@ -6,7 +6,7 @@ use DomainException;
 use Webmozart\Assert\Assert;
 use yii\base\BaseObject;
 
-abstract class RepositoryBase extends BaseObject implements Repository
+class RepositoryBase extends BaseObject implements Repository
 {
     public const ID = 'Repository';
     /**
@@ -64,14 +64,14 @@ abstract class RepositoryBase extends BaseObject implements Repository
         return $this;
     }
 
-    public function find(): DbActiveQueryBase
+    public function query(): DbActiveQueryBase
     {
         return $this->entityClass::find();
     }
 
     protected function findEntity(int $pk, bool $throw = true): ?DbModelBase
     {
-        $entity = $this->find()
+        $entity = $this->query()
             ->where(['=', 'id', $pk])
             ->limit(1)
             ->one();
@@ -91,6 +91,22 @@ abstract class RepositoryBase extends BaseObject implements Repository
     public function entityDelete(): bool
     {
         return $this->entity()->delete();
+    }
+
+    public function entityPersist(array $payload): bool
+    {
+        $transaction = $this->entity()::startTransaction();
+        try {
+            if ($this->entity()->dataSave($payload)) {
+                $this->setPersistStatus(true);
+                $transaction->commit();
+            }
+
+            return $this->getPersistStatus();
+        } catch (Throwable $t) {
+            $transaction->rollBack();
+            throw $t;
+        }
     }
 
     public function getPersistStatus(): bool

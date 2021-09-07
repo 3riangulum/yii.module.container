@@ -17,6 +17,7 @@ class FrontCrud extends FrontBase
 
     private $creator    = null;
     private $editor     = null;
+    private $viewer     = null;
     private $duplicator = null;
     private $eraser     = null;
 
@@ -29,10 +30,9 @@ class FrontCrud extends FrontBase
         $allowDelete = $this->loadRouter()->isAllowed(RouterBase::ACTION_DELETE);
 
         $this->actionConfig = FrontConfig::builder([
-            'gridClass'       => $this->gridClass,
-            'gridSearchClass' => $this->gridSearchClass,
-            'router'          => $this->loadRouter(),
-            'delete'          => $allowDelete ? RouterBase::ACTION_DELETE : '',
+            'gridClass' => $this->gridClass,
+            'router'    => $this->loadRouter(),
+            'delete'    => $allowDelete ? RouterBase::ACTION_DELETE : '',
         ])
             ->buildGrid(self::ALIAS_GRID, RouterBase::ACTION_INDEX, $this->titleGrid)
             ->buildPopup(self::ALIAS_EDITOR, RouterBase::ACTION_EDIT)
@@ -58,10 +58,13 @@ class FrontCrud extends FrontBase
             $grid->actionColumnSet([$this->duplicator()]);
         }
 
-        if (!empty($this->gridSearchClass)) {
-            $searchModel =  $this->loadModuleComponent('Search');
+        if (!empty($this->searchComponent)) {
+            $searchModel = $this->loadModuleComponent($this->searchComponent);
             $grid->dataProviderSet($searchModel->search($searchParams));
-            $grid->searchModelSet($searchModel);
+            if ($this->gridFilterEnable) {
+                $grid->searchModelSet($searchModel);
+            }
+
         }
 
         return $grid;
