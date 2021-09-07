@@ -31,6 +31,15 @@ class Tabs extends BaseObjectUI implements ComponentBuilderInterface
         }
     }
 
+    public function render(): void
+    {
+        $this->popup->pjaxBegin();
+        $this->popup->panelBegin();
+        $this->renderFormTabs();
+        $this->popup->panelEnd();
+        $this->popup->pjaxEnd();
+    }
+
     public function renderFormTabs(): void
     {
         $this->popup->formBegin();
@@ -50,7 +59,7 @@ class Tabs extends BaseObjectUI implements ComponentBuilderInterface
 
     public function nav(): void
     {
-        echo $this->render(
+        echo $this->renderContent(
             $this->templateDir . $this->viewNav,
             [
                 'config' => $this->config,
@@ -61,7 +70,7 @@ class Tabs extends BaseObjectUI implements ComponentBuilderInterface
 
     public function content(): void
     {
-        echo $this->render(
+        echo $this->renderContent(
             $this->templateDir . $this->viewContent,
             [
                 'config' => $this->config,
@@ -118,7 +127,7 @@ JS
         return dirname((new ReflectionClass($this))->getFileName()) . '/views/';
     }
 
-    private function render(string $view, array $params = []): string
+    private function renderContent(string $view, array $params = []): string
     {
         return Yii::$app->getView()->renderFile($view, $params);
     }

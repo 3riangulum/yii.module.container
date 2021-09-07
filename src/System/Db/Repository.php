@@ -1,11 +1,11 @@
 <?php
 
-namespace Triangulum\Yii\ModuleContainer\System\Db\Services;
+namespace Triangulum\Yii\ModuleContainer\System\Db;
 
-use Triangulum\Yii\ModuleContainer\System\Db\DbModelBase;
-
-interface RepositoryContract
+interface Repository
 {
+    public function find(): DbActiveQueryBase;
+
     public function entityLoad(int $pk, bool $throw = true): self;
 
     public function entityCreate(): self;

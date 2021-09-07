@@ -2,7 +2,7 @@
 
 namespace Triangulum\Yii\ModuleContainer\UI\Front;
 
-use Triangulum\Yii\ModuleContainer\System\Db\Services\Repository;
+use Triangulum\Yii\ModuleContainer\System\Db\RepositoryBase;
 use Triangulum\Yii\ModuleContainer\UI\Access\RouterBase;
 use Triangulum\Yii\ModuleContainer\UI\Front\Element\ElementGrid;
 
@@ -59,7 +59,7 @@ class FrontCrud extends FrontBase
         }
 
         if (!empty($this->gridSearchClass)) {
-            $searchModel = new $this->gridSearchClass();
+            $searchModel =  $this->loadModuleComponent('Search');
             $grid->dataProviderSet($searchModel->search($searchParams));
             $grid->searchModelSet($searchModel);
         }
@@ -87,7 +87,7 @@ class FrontCrud extends FrontBase
         return $this->viewer;
     }
 
-    public function editor(Repository $repository = null)
+    public function editor(RepositoryBase $repository = null)
     {
         if (null === $this->editor) {
             $this->editor = $this
@@ -98,7 +98,7 @@ class FrontCrud extends FrontBase
         return $this->editor;
     }
 
-    public function creator(Repository $repository = null)
+    public function creator(RepositoryBase $repository = null)
     {
         if (null === $this->creator) {
             $this->creator = $this
@@ -120,7 +120,7 @@ class FrontCrud extends FrontBase
         return $this->eraser;
     }
 
-    public function duplicator(Repository $repository = null)
+    public function duplicator(RepositoryBase $repository = null)
     {
         if (null === $this->duplicator) {
             $this->duplicator = $this
@@ -131,7 +131,7 @@ class FrontCrud extends FrontBase
         return $this->duplicator;
     }
 
-    private function popupSetup(string $alias, Repository $repository = null)
+    private function popupSetup(string $alias, RepositoryBase $repository = null)
     {
         $element = $this->popupLoad($alias);
         if (null !== $repository) {

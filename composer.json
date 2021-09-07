@@ -20,6 +20,7 @@
     "ext-mbstring": "*",
     "ext-pdo": "*",
     "ext-redis": "*",
+    "antic-droid/yii2-sortable-grid-view-widget": "dev-master",
     "bookin/yii2-awesome-bootstrap-checkbox": "dev-master",
     "kartik-v/yii2-widget-datepicker": "^1.4@dev",
     "kartik-v/yii2-widget-datetimepicker": "^1.4@dev",

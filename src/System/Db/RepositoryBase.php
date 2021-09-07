@@ -1,19 +1,14 @@
 <?php
 
-namespace Triangulum\Yii\ModuleContainer\System\Db\Services;
+namespace Triangulum\Yii\ModuleContainer\System\Db;
 
 use DomainException;
-use Triangulum\Yii\ModuleContainer\System\ComponentBuilderTrait;
-use Triangulum\Yii\ModuleContainer\System\Db\DbModelBase;
 use Webmozart\Assert\Assert;
 use yii\base\BaseObject;
 
-abstract class Repository extends BaseObject implements RepositoryContract
+abstract class RepositoryBase extends BaseObject implements Repository
 {
     public const ID = 'Repository';
-
-    use ComponentBuilderTrait;
-
     /**
      * @var null|DbModelBase
      */
@@ -46,7 +41,6 @@ abstract class Repository extends BaseObject implements RepositoryContract
     public function entityDuplicate(int $pk): self
     {
         $this->entityCreate();
-
         $this->entity()->setAttributes(
             $this->filterAttributes(
                 $this->findEntity($pk)->toArray()
@@ -70,9 +64,14 @@ abstract class Repository extends BaseObject implements RepositoryContract
         return $this;
     }
 
+    public function find(): DbActiveQueryBase
+    {
+        return $this->entityClass::find();
+    }
+
     protected function findEntity(int $pk, bool $throw = true): ?DbModelBase
     {
-        $entity = $this->entityClass::find()
+        $entity = $this->find()
             ->where(['=', 'id', $pk])
             ->limit(1)
             ->one();
