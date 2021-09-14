@@ -137,7 +137,7 @@ class FrontCrud extends FrontBase
     private function popupSetup(string $alias, RepositoryBase $repository = null)
     {
         $element = $this->popupLoad($alias);
-        if (null !== $repository) {
+        if ($repository && null !== $repository->entity()) {
             $element
                 ->setPk($repository->entityPk())
                 ->setHasError($repository->entity()->hasErrors());

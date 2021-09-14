@@ -3,6 +3,7 @@
 namespace Triangulum\Yii\ModuleContainer\System\Db;
 
 use DomainException;
+use Throwable;
 use Webmozart\Assert\Assert;
 use yii\base\BaseObject;
 
@@ -33,7 +34,14 @@ class RepositoryBase extends BaseObject implements Repository
 
     public function entityCreate(): self
     {
-        $this->entity = new $this->entityClass;
+        $this->entity = new $this->entityClass();
+
+        return $this;
+    }
+
+    public function entityLoad(int $pk, bool $throw = true): self
+    {
+        $this->entity = $this->findEntity($pk, $throw);
 
         return $this;
     }
@@ -42,9 +50,7 @@ class RepositoryBase extends BaseObject implements Repository
     {
         $this->entityCreate();
         $this->entity()->setAttributes(
-            $this->filterAttributes(
-                $this->findEntity($pk)->toArray()
-            )
+            $this->findEntity($pk)->exportAttributes($this->exportExclude)
         );
 
         return $this;
@@ -55,13 +61,6 @@ class RepositoryBase extends BaseObject implements Repository
         return $this->entity()->exportAttributes(
             $this->exportExclude
         );
-    }
-
-    public function entityLoad(int $pk, bool $throw = true): self
-    {
-        $this->entity = $this->findEntity($pk, $throw);
-
-        return $this;
     }
 
     public function query(): DbActiveQueryBase

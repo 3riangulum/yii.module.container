@@ -8,6 +8,8 @@ use kartik\datetime\DateTimePicker;
 use ReflectionClass;
 use Triangulum\Yii\ModuleContainer\System\Model\ModelBase;
 use Triangulum\Yii\ModuleContainer\UI\Data\ArrayDataProviderBase;
+use Triangulum\Yii\ModuleContainer\UI\Html\CheckBox;
+use Triangulum\Yii\ModuleContainer\UI\Html\CheckboxWidget;
 use Triangulum\Yii\ModuleContainer\UI\Html\Dropdown\Dropdown;
 use Triangulum\Yii\ModuleContainer\UI\Html\Dropdown\FilterDropdown;
 use Yii;
@@ -18,17 +20,17 @@ abstract class DbSearchBase extends ModelBase implements DbSearch
 {
     public const ID = 'Search';
 
-    public string      $repositoryAlias = '';
+    public string $repositoryAlias = '';
     public ?Repository $repository      = null;
 
     private ?DbActiveQueryBase $gridSearchQuery           = null;
-    protected string           $gridSearchFormAlias       = '';
-    protected array            $gridSearchParams          = [];
-    private string             $gridSortDefaultOrderIndex = 'defaultOrder';
-    private array              $filterSortConfig          = [];
-    private static ?string     $filterPrefix              = null;
-    private ?array             $gridSearchFilterVal       = null;
-    private string             $elementClass              = 'form-control';
+    protected string $gridSearchFormAlias       = '';
+    protected array $gridSearchParams          = [];
+    private string $gridSortDefaultOrderIndex = 'defaultOrder';
+    private array $filterSortConfig          = [];
+    private static ?string $filterPrefix              = null;
+    private ?array $gridSearchFilterVal       = null;
+    private string $elementClass              = 'form-control';
 
     public function __construct($config = [])
     {
