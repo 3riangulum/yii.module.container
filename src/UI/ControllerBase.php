@@ -4,6 +4,7 @@ namespace Triangulum\Yii\ModuleContainer\UI;
 
 use Throwable;
 use Triangulum\Yii\ModuleContainer\UI\Access\RouterBase;
+use Triangulum\Yii\ModuleContainer\UI\Html\Tab\Tabs;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -21,12 +22,12 @@ class ControllerBase extends Controller
      * @deprecated
      * @var int
      */
-    protected int    $hideModal             = 0;
+    protected int $hideModal             = 0;
     protected string $uri                   = '';
-    protected array  $csrfValidationExclude = [];
-    protected array  $jsonResponse          = [];
-    protected array  $accessRules           = [];
-    protected array  $verbActions           = [];
+    protected array $csrfValidationExclude = [];
+    protected array $jsonResponse          = [];
+    protected array $accessRules           = [];
+    protected array $verbActions           = [];
 
     /**
      * @throws BadRequestHttpException
@@ -138,6 +139,16 @@ class ControllerBase extends Controller
         return $this->renderAjax(
             Yii::$app->params['App.UI.sys.template_delete'],
             $data
+        );
+    }
+
+    protected function renderFormTabs(Tabs $formTabs): string
+    {
+        return $this->renderAjax(
+            Yii::$app->params['App.UI.sys.template_form_tabs'],
+            [
+                'tabs' => $formTabs,
+            ]
         );
     }
 

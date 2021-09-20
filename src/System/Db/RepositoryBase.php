@@ -24,7 +24,7 @@ class RepositoryBase extends BaseObject implements Repository
     ];
 
     private ?DbModelBase $entity        = null;
-    protected bool       $persistStatus = false;
+    protected bool $persistStatus = false;
 
     public function init(): void
     {

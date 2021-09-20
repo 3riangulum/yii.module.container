@@ -3,16 +3,24 @@
 namespace Triangulum\Yii\ModuleContainer\UI\Front\Element;
 
 use anticdroid\sortablegrid\SortableGridView;
+use Triangulum\Yii\ModuleContainer\System\Db\DbSearchSortable;
+use Webmozart\Assert\Assert;
 use yii\web\View;
 
-trait ElementGridSortable
+/**
+ * @property DbSearchSortable searchModel
+ * @property SortableGridView gridWidgetClass
+ */
+abstract class ElementGridSortable extends ElementGrid
 {
-    public string $sortableAction = 'sortableAction';
+    public ?string $sortableAction = null;
+
+    private ?bool $canSort = null;
 
     public function init(): void
     {
         parent::init();
-        $this->gridWidgetClass = SortableGridView::class;
+        Assert::notEmpty($this->sortableAction, static::class . '::sortableAction is empty');
     }
 
     public function widget(): string
@@ -21,7 +29,11 @@ trait ElementGridSortable
             $this->dataProvider,
             $this->searchModel
         );
-        $config['sortableAction'] = $this->sortableAction;
+
+        if ($this->canSortItems()) {
+            $config['sortableAction'] = $this->sortableAction;
+            $this->gridWidgetClass = SortableGridView::class;
+        }
 
         return $this->gridWidgetClass::widget($config);
     }
@@ -34,11 +46,27 @@ trait ElementGridSortable
         $this->render();
         $this->registerSortable($view);
         $this->pjaxEnd();
+    }
 
+    protected function canSortItems(): bool
+    {
+        if (null === $this->canSort) {
+            $this->canSort =
+                $this->searchModel &&
+                $this->searchModel->canSortItemsByParams() &&
+                $this->dataProvider &&
+                $this->dataProvider->getCount() > 1;
+        }
+
+        return $this->canSort;
     }
 
     protected function registerSortable(View $view): void
     {
+        if (!$this->canSortItems()) {
+            return;
+        }
+
         $id = $this->pjaxId();
         $view->registerJs(<<<JS
 
@@ -58,5 +86,4 @@ $("#$id")
 JS
         );
     }
-
 }

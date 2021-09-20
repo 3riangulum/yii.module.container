@@ -23,12 +23,13 @@ class FrontBase extends BaseObjectUI
     public const ALIAS_ERASER     = 'eraser';
     public const ALIAS_VIEWER     = 'viewer';
 
-    public ?string $gridClass        = null;
-    public ?string $searchComponent  = DbSearchBase::ID;
-    public bool    $gridFilterEnable = true;
+    public ?string $gridClass          = null;
+    public ?string $gridSortableAction = null;
+    public ?string $searchComponent    = DbSearchBase::ID;
+    public bool $gridFilterEnable   = true;
 
     protected ?RouterBase $router       = null;
-    protected array       $actionConfig = [];
+    protected array $actionConfig = [];
 
     public function init(): void
     {

@@ -3,9 +3,12 @@
 namespace Triangulum\Yii\ModuleContainer\UI\Html\Dropdown;
 
 use Triangulum\Yii\ModuleContainer\UI\BaseObjectUI;
+use \Triangulum\Yii\ModuleContainer\System\ComponentBuilderTrait;
 
 class FilterDropdown extends BaseObjectUI
 {
+    use ComponentBuilderTrait;
+
     public array  $itemMap             = [];
     public string $labelContainerClass = 'text-center';
 

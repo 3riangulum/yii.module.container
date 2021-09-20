@@ -13,7 +13,7 @@ class ModuleBase extends Module
 {
     public const COMPONENTS = 'components';
 
-    public string  $moduleParentNamespace  = '';
+    public string $moduleParentNamespace  = '';
     public ?string $moduleBootstrapUI      = '/config/module_bootstrap_ui.php';
     public ?string $moduleBootstrapCommand = '/config/module_bootstrap_command.php';
 
