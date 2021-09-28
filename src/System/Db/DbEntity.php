@@ -23,4 +23,11 @@ class DbEntity extends ActiveRecord
 
         return $data;
     }
+
+    public static function tbName(string $field = ''): string
+    {
+        $field = !empty($field) ? '.' . $field : '';
+
+        return get_called_class()::getTableSchema()->fullName . $field;
+    }
 }
