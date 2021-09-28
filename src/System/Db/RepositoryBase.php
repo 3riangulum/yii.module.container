@@ -3,9 +3,9 @@
 namespace Triangulum\Yii\ModuleContainer\System\Db;
 
 use DomainException;
-use Throwable;
 use Webmozart\Assert\Assert;
 use yii\base\BaseObject;
+use yii\db\ActiveRecord;
 
 class RepositoryBase extends BaseObject implements Repository
 {
@@ -23,7 +23,7 @@ class RepositoryBase extends BaseObject implements Repository
         'status',
     ];
 
-    private ?DbModelBase $entity        = null;
+    private ?ActiveRecord $entity        = null;
     protected bool $persistStatus = false;
 
     public function init(): void
@@ -68,7 +68,7 @@ class RepositoryBase extends BaseObject implements Repository
         return $this->entityClass::find();
     }
 
-    protected function findEntity(int $pk, bool $throw = true): ?DbModelBase
+    protected function findEntity(int $pk, bool $throw = true): ?ActiveRecord
     {
         $entity = $this->query()
             ->where(['=', 'id', $pk])
@@ -82,7 +82,7 @@ class RepositoryBase extends BaseObject implements Repository
         return $entity;
     }
 
-    public function entity(): ?DbModelBase
+    public function entity(): ?ActiveRecord
     {
         return $this->entity;
     }
@@ -94,18 +94,12 @@ class RepositoryBase extends BaseObject implements Repository
 
     public function entityPersist(array $payload): bool
     {
-        $transaction = $this->entity()::startTransaction();
-        try {
-            if ($this->entity()->dataSave($payload)) {
-                $this->setPersistStatus(true);
-                $transaction->commit();
-            }
-
-            return $this->getPersistStatus();
-        } catch (Throwable $t) {
-            $transaction->rollBack();
-            throw $t;
+        $entity = $this->entity();
+        if ($entity->load($payload) && $entity->save($payload)) {
+            $this->setPersistStatus(true);
         }
+
+        return $this->getPersistStatus();
     }
 
     public function getPersistStatus(): bool

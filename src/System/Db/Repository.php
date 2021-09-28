@@ -6,13 +6,19 @@ interface Repository
 {
     public function query(): DbActiveQueryBase;
 
-    public function entityLoad(int $pk, bool $throw = true): self;
+    /**
+     * @deprecated
+     * @param int  $pk
+     * @param bool $throw
+     * @return $this
+     */
+//    public function entityLoad(int $pk, bool $throw = true): self;
 
     public function entityCreate(): self;
 
     public function entityDuplicate(int $pk): self;
 
-    public function entity(): ?DbModelBase;
+    public function entity(): ?\yii\db\ActiveRecord;
 
     public function entityPk(): array;
 

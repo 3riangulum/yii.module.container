@@ -2,6 +2,9 @@
 
 namespace Triangulum\Yii\ModuleContainer\System\Db;
 
+/**
+ * @property string $repositoryAlias
+ */
 abstract class DbSearchSortable extends DbSearchBase
 {
     protected array $sortCriteriaParams = [];
