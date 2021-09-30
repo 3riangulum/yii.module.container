@@ -8,7 +8,7 @@ use yii\widgets\ActiveForm;
 
 final class Switcher
 {
-    public static function switchInput(ActiveForm $form, $model, string $field, string $onColor = 'success', $offColor = 'danger', $onText = ' &nbsp; YES &nbsp; ', $offText = ' &nbsp; NO &nbsp; '): ActiveField
+    public static function input(ActiveForm $form, $model, string $field, string $onColor = 'success', $offColor = 'danger', $onText = ' &nbsp; YES &nbsp; ', $offText = ' &nbsp; NO &nbsp; '): ActiveField
     {
         return $form->field($model, $field)->widget(SwitchInput::class, [
             'type'          => SwitchInput::CHECKBOX,
@@ -23,9 +23,9 @@ final class Switcher
         ]);
     }
 
-    public static function switchStatus(ActiveForm $form, $model, string $field, array $txt = ['ON', 'OFF']): ActiveField
+    public static function status(ActiveForm $form, $model, string $field, array $txt = ['ON', 'OFF']): ActiveField
     {
-        return self::switchInput(
+        return self::input(
             $form,
             $model,
             $field,
@@ -36,9 +36,9 @@ final class Switcher
         );
     }
 
-    public static function switchStatusInvertedColor(ActiveForm $form, $model, string $field, array $txt = ['ON', 'OFF']): ActiveField
+    public static function statusInvertedColor(ActiveForm $form, $model, string $field, array $txt = ['ON', 'OFF']): ActiveField
     {
-        return self::switchInput(
+        return self::input(
             $form,
             $model,
             $field,
