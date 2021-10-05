@@ -4,19 +4,13 @@ namespace Triangulum\Yii\ModuleContainer\System\Db;
 
 use yii\db\ActiveRecord;
 use yii\db\Transaction;
+use yii\redis\ActiveQuery;
 
 abstract class DbModelBase extends ActiveRecord
 {
     public const DATE_FORMAT      = 'Y-m-d';
     public const TIME_FORMAT      = 'H:i:s';
     public const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
-
-    public static function tbName(string $field = ''): string
-    {
-        $field = !empty($field) ? '.' . $field : '';
-
-        return get_called_class()::getTableSchema()->fullName . $field;
-    }
 
     public function dataSave(array $postData): bool
     {

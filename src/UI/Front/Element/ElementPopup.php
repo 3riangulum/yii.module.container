@@ -412,9 +412,9 @@ JS;
         $this->panelEnd();
     }
 
-    public function panelBegin(string $title = '', bool $encode = true): void
+    public function panelBegin(string $title = '', bool $encode = true, bool $closeButton = true): void
     {
-        echo $this->panel->begin(Html::encode(empty($title) ? $this->title : $title));
+        echo $this->panel->begin(Html::encode(empty($title) ? $this->title : $title), $closeButton);
 
         if (!empty($this->pk)) {
             echo $this->htmlButtonDelete($this->pk);

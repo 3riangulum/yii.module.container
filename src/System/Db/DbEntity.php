@@ -6,11 +6,17 @@ use yii\db\ActiveRecord;
 
 class DbEntity extends ActiveRecord
 {
+    protected bool $dbSingleTransaction = true;
+
     public function transactions(): array
     {
-        return [
-            self::SCENARIO_DEFAULT => self::OP_ALL,
-        ];
+        if ($this->dbSingleTransaction) {
+            return [
+                self::SCENARIO_DEFAULT => self::OP_ALL,
+            ];
+        }
+
+        return [];
     }
 
     public function exportAttributes(array $exclude = []): array
@@ -22,6 +28,11 @@ class DbEntity extends ActiveRecord
         }
 
         return $data;
+    }
+
+    public function disableDbSingleTransaction(): void
+    {
+        $this->dbSingleTransaction = false;
     }
 
     public static function tbName(string $field = ''): string

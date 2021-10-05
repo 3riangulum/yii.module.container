@@ -4,6 +4,8 @@ namespace Triangulum\Yii\ModuleContainer;
 
 use Triangulum\Yii\ModuleContainer\System\Cache\RedisPrefixedCache;
 use Triangulum\Yii\ModuleContainer\UI\Access\RouterBase;
+use Triangulum\Yii\ModuleContainer\UI\Front\Front;
+use Triangulum\Yii\ModuleContainer\UI\Front\FrontBase;
 use Triangulum\Yii\ModuleContainer\UI\Menu\MenuItem;
 use Yii;
 use yii\helpers\BaseInflector;
@@ -20,6 +22,11 @@ trait ModuleContainerIdentityTrait
         return Yii::$app
             ->getModule($this->getModuleId())
             ->get($this->componentId($alias));
+    }
+
+    public function loadFrontend(string $alias = ''): Front
+    {
+        return $this->loadModuleComponent(FrontBase::ID . $alias);
     }
 
     public function loadMenuItem(string $alias = ''): MenuItem

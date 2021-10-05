@@ -9,7 +9,7 @@ use yii\db\ActiveRecord;
 
 class RepositoryBase extends BaseObject implements Repository
 {
-    public const ID = 'Repository';
+    public const ID = 'RepositoryBase';
     /**
      * @var null|DbModelBase
      */
@@ -24,7 +24,7 @@ class RepositoryBase extends BaseObject implements Repository
     ];
 
     private ?ActiveRecord $entity        = null;
-    protected bool $persistStatus = false;
+    protected bool        $persistStatus = false;
 
     public function init(): void
     {

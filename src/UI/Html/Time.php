@@ -30,7 +30,8 @@ final class Time
             ],
             'language'      => 'en',
             'layout'        => '{input}{remove}',
-            'type'          => DatePicker::TYPE_INPUT,
+            //            'type'          => DatePicker::TYPE_INPUT,
+            'type'          => DatePicker::TYPE_COMPONENT_PREPEND,
             'pluginOptions' => [
                 'autoclose'      => true,
                 'todayHighlight' => true,

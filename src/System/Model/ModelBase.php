@@ -4,6 +4,7 @@ namespace Triangulum\Yii\ModuleContainer\System\Model;
 
 use ReflectionClass;
 use yii\base\Model;
+use yii\helpers\Html;
 
 class ModelBase extends Model
 {
@@ -34,6 +35,17 @@ class ModelBase extends Model
         return implode('', $ret);
     }
 
+    public static function extractPost(array $postData, string $attribute = null)
+    {
+        $data = $postData[static::getFormName()] ?? [];
+
+        if (empty($attribute)) {
+            return $data;
+        }
+
+        return $data[$attribute] ?? null;
+    }
+
     public static function getFormName(string $index = null): string
     {
         $reflector = new ReflectionClass(get_called_class());
@@ -55,5 +67,10 @@ class ModelBase extends Model
         }
 
         return $ret;
+    }
+
+    protected function htmlInputId(string $attribute): string
+    {
+        return Html::getInputId($this, $attribute);
     }
 }

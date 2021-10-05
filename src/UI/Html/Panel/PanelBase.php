@@ -12,13 +12,14 @@ class PanelBase extends BaseObjectUI
     public string $viewBegin  = '';
     public string $viewEnd    = '';
 
-    public function begin(string $title = null): string
+    public function begin(string $title = null, bool $closeButton = true): string
     {
         return $this->render(
             $this->viewBegin,
             [
-                'title'      => BaseHtmlPurifier::process($title),
-                'panelClass' => $this->panelClass,
+                'title'       => BaseHtmlPurifier::process($title),
+                'panelClass'  => $this->panelClass,
+                'closeButton' => $closeButton,
             ]
         );
     }

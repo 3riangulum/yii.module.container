@@ -5,6 +5,7 @@ namespace Triangulum\Yii\ModuleContainer\UI\Data\Search;
 use kartik\date\DatePicker;
 use kartik\datetime\DateTimePicker;
 use ReflectionClass;
+use Triangulum\Yii\ModuleContainer\UI\Html\CheckboxWidget;
 use Triangulum\Yii\ModuleContainer\UI\Html\Dropdown\Dropdown;
 use Triangulum\Yii\ModuleContainer\UI\Html\Dropdown\FilterDropdown;
 use Yii;

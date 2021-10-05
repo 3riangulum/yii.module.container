@@ -10,7 +10,7 @@ use Triangulum\Yii\ModuleContainer\UI\Front\Element\ElementPopup;
 use Triangulum\Yii\ModuleContainer\UI\Html\AutoComplete\AutoCompleteSelectGrid;
 use yii\base\Model;
 
-class FrontBase extends BaseObjectUI
+class FrontBase extends BaseObjectUI implements Front
 {
     use ModuleContainerIdentityTrait;
 
@@ -26,15 +26,20 @@ class FrontBase extends BaseObjectUI
     public ?string $gridClass          = null;
     public ?string $gridSortableAction = null;
     public ?string $searchComponent    = DbSearchBase::ID;
-    public bool $gridFilterEnable   = true;
+    public bool    $gridFilterEnable   = true;
 
     protected ?RouterBase $router       = null;
-    protected array $actionConfig = [];
+    protected array       $actionConfig = [];
 
     public function init(): void
     {
         parent::init();
         $this->router = $this->loadRouter();
+    }
+
+    public function templatePath(string $template): string
+    {
+        return $this->viewRoot . trim($template, '/');
     }
 
     protected function actionConfig(): array
@@ -50,11 +55,6 @@ class FrontBase extends BaseObjectUI
     protected function popupLoad(string $alias): ElementPopup
     {
         return ElementPopup::builder($this->actionConfig()[$alias]);
-    }
-
-    public function templatePath(string $template): string
-    {
-        return $this->viewRoot . trim($template, '/');
     }
 
     protected function autocompleteGrid(Model $model, string $attribute): AutoCompleteSelectGrid

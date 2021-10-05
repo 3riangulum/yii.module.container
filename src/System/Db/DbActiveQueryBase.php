@@ -262,7 +262,7 @@ class DbActiveQueryBase extends ActiveQuery
      * @param mixed  $value
      * {@inheritdoc}
      */
-    public function andWhereFieldEq(string $field, $value)
+    public function andWhereFieldEq(string $field, $value): self
     {
         return $this->andWhere(['=', $field, $value]);
     }
