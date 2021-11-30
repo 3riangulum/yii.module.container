@@ -2,7 +2,7 @@
 
 namespace Triangulum\Yii\ModuleContainer\UI\Html;
 
-class LabelInline
+final class LabelInline
 {
     private const INLINE_CLASS = 'label-inline';
 

@@ -2,7 +2,6 @@
 
 namespace Triangulum\Yii\ModuleContainer\UI\Front;
 
-use backend\modules\domain\tariff\TariffContainer;
 use Triangulum\Yii\ModuleContainer\System\Db\RepositoryBase;
 use Triangulum\Yii\ModuleContainer\UI\Access\RouterBase;
 use Triangulum\Yii\ModuleContainer\UI\Front\Element\ElementGrid;
@@ -67,7 +66,7 @@ class FrontCrud extends FrontBase
             }
 
             if (!empty($grid->sortableAction) && $this->router->isAllowed($grid->sortableAction)) {
-                $grid->sortableAction = $this->router->route(TariffContainer::ACTION_RANK);
+                $grid->sortableAction = $this->router->route($grid->sortableAction);
             }
         }
 

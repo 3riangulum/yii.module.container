@@ -272,7 +272,7 @@ class DbActiveQueryBase extends ActiveQuery
      * @param mixed  $value
      * {@inheritdoc}
      */
-    public function andWhereFieldIn(string $field, array $value)
+    public function andWhereFieldIn(string $field, array $value):self
     {
         return $this->andWhere(['IN', $field, $value]);
     }
@@ -340,7 +340,7 @@ class DbActiveQueryBase extends ActiveQuery
     /**
      * {@inheritdoc}
      */
-    public function abortQuery()
+    public function abortQuery():self
     {
         return $this->where('0=1');
     }
